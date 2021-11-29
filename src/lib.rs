@@ -35,12 +35,15 @@ pub fn run() -> Result<(), Box<dyn Error>> {
             events::Event::KeyPressed(ke) => match ke {
                 KeyEvent {
                     code: KeyCode::Char('q'),
-                    modifiers: KeyModifiers::NONE,
+                    ..
                 } => {
                     break;
                 }
                 other => current_view.as_mut().process_key(other),
             },
+            // in case of sync event, don't really do anything much
+            // we still need to redraw in this case, so let this just
+            // push loop further
             events::Event::Sync => Ok(None),
         };
 
